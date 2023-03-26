@@ -3,17 +3,22 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "bali.rahul.ovale"
         minSdk 29
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "ACCESS_TOKEN", "${properties.getProperty('access.token')}")
     }
 
     buildTypes {
@@ -43,7 +48,36 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // retrofit2 here
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // okhttp3
+    implementation "com.squareup.okhttp3:logging-interceptor:4.7.2"
+
+    // image download, cache and display - Glide
+    implementation 'com.github.bumptech.glide:glide:4.15.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
+    implementation 'com.github.bumptech.glide:recyclerview-integration:4.14.2' // for recyclerview
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'
+
+    // rxjava 3 completely supported by retrofit2
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+
+    // rx android 3
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    // Because RxAndroid releases are few and far between, it is recommended you also
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
+    // (see https://github.com/ReactiveX/RxJava/releases for latest 3.x.x version)
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
+
+    // material design 3, version > 1.5.0
+    implementation 'com.google.android.material:material:1.8.0'
+
 }

@@ -1,10 +1,11 @@
 package bali.rahul.ovale
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import bali.rahul.ovale.databinding.FragmentFirstBinding
 
@@ -34,6 +35,12 @@ class FirstFragment : Fragment() {
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
+
+        binding.buttonPhoto.setOnClickListener {
+            // intent can be done from activity only, so "activity" is passed instead of the "this".
+            val intent = Intent(activity, CollectionActivity::class.java)
+            startActivity(intent)
         }
     }
 
