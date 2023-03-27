@@ -84,6 +84,7 @@ class RecyclerAdapter(private var photos: List<Photo>) :
                 .applyDefaultRequestOptions(requestOptions)
                 .load(photo.urls?.regular)
                 .transition(DrawableTransitionOptions.withCrossFade())
+                .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.ALL)
                 .into(photoImage)
         }
     }

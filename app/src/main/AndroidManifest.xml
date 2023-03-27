@@ -16,17 +16,21 @@
         android:theme="@style/Theme.Ovale"
         tools:targetApi="31">
         <activity
-            android:name=".PhotoActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Ovale.NoActionBar" />
-        <activity
-            android:name=".CollectionActivity"
+            android:name=".SettingsActivity"
             android:exported="false" />
         <activity
+            android:name=".PhotoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Ovale" />
+        <activity
+            android:name=".CollectionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Ovale" />
+        <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.NoActionBar">
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Ovale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

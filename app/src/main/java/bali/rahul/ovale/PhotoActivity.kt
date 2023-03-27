@@ -11,6 +11,8 @@ import androidx.appcompat.widget.Toolbar
 import bali.rahul.ovale.dataModel.Photo
 import bali.rahul.ovale.databinding.ActivityPhotoBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 
 class PhotoActivity : AppCompatActivity() {
 
@@ -52,9 +54,16 @@ class PhotoActivity : AppCompatActivity() {
 
             Log.d(TAG, "Received photo data: $parcelPhoto")
 
+            val requestOptions = RequestOptions()
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
 
-            Glide.with(this).load(parcelPhoto.urls?.regular)
-                .placeholder(R.drawable.ic_launcher_background).into(photoImage)
+            Glide.with(this)
+                .applyDefaultRequestOptions(requestOptions)
+                .load(parcelPhoto.urls?.regular)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.ALL)
+                .into(photoImage)
 
             // Set the text
             binding.descriptionTextView.text = parcelPhoto.description

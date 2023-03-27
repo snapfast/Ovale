@@ -10,7 +10,7 @@ interface NetworkApi {
 
     //Get a random photo from the API
     @GET("photos/random?count=30")
-    fun fetchRandomPhoto(): Single<Photo>
+    fun fetchRandomPhoto(): Single<List<Photo>>
 
     //Get a list of photos from collection with id
     @GET("collections/{id}/photos?page=1&per_page=30")

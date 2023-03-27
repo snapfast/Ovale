@@ -1,6 +1,5 @@
 package bali.rahul.ovale
 
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -10,6 +9,7 @@ import bali.rahul.ovale.adapter.RecyclerAdapter
 import bali.rahul.ovale.dataModel.Photo
 import bali.rahul.ovale.databinding.ActivityCollectionBinding
 import bali.rahul.ovale.rest.RestApi
+import bali.rahul.ovale.utils.Internet
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -24,11 +24,6 @@ class CollectionActivity : AppCompatActivity() {
     // declare adapter for Photos
     private val adapter = RecyclerAdapter(photos)
 
-    //Get network manager from the system service
-    private val networkManager by lazy {
-        getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,19 +34,25 @@ class CollectionActivity : AppCompatActivity() {
 
         Log.d(TAG, "net toh chal rha hai")
 
-        //Here we create background task to fetch info
-        RestApi().retrofit.fetchCollectionPhotos("nB1aKrGZ0XQ")
-            //Everytime you use subscribe you switch to a worker thread
-            .subscribeOn(Schedulers.io())
-            //Observe on lets you get the data in the main thread by using android schedulers
-            .observeOn(AndroidSchedulers.mainThread())
-            //When you subscribe this is the time you can handle the error or success or the data
-            //.subscribe(this::handleSuccess, this::handleError)
-            .subscribe(
-                //Success with photo object
-                { photos -> handleSuccess(photos) },
-                //Error with throwable object
-                { error -> handleError(error) })
+        val internet = Internet()
+
+        if (Internet().isNetworkAvailable(applicationContext)) {
+            //Here we create background task to fetch info
+            RestApi().retrofit.fetchCollectionPhotos("nB1aKrGZ0XQ")
+                //Everytime you use subscribe you switch to a worker thread
+                .subscribeOn(Schedulers.io())
+                //Observe on lets you get the data in the main thread by using android schedulers
+                .observeOn(AndroidSchedulers.mainThread())
+                //When you subscribe this is the time you can handle the error or success or the data
+                //.subscribe(this::handleSuccess, this::handleError)
+                .subscribe(
+                    //Success with photo object
+                    { photos -> handleSuccess(photos) },
+                    //Error with throwable object
+                    { error -> handleError(error) })
+        } else {
+            Toast.makeText(baseContext, "No Internet Connection", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun handleError(error: Throwable) {
@@ -76,11 +77,6 @@ class CollectionActivity : AppCompatActivity() {
         this.photos = photos as MutableList<Photo>
         adapter.setPhotos(this.photos)
 
-    }
-
-    //Check if the network in connected or not
-    private fun isNetworkConnected(): Boolean {
-        return networkManager.isDefaultNetworkActive
     }
 
 }
