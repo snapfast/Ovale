@@ -4,6 +4,7 @@ package bali.rahul.ovale.adapter
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,23 +16,43 @@ import bali.rahul.ovale.PhotoActivity
 import bali.rahul.ovale.R
 import bali.rahul.ovale.dataModel.Photo
 import bali.rahul.ovale.databinding.ItemPhotoCardBinding
+import bali.rahul.ovale.storage.OvaleDatabase
+import bali.rahul.ovale.storage.dao.PhotoDao
+import bali.rahul.ovale.storage.model.PhotoStore
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class RecyclerAdapter(private var photos: List<Photo>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+
+    private lateinit var photoDao: PhotoDao
+
+    // Define a coroutine scope
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
+    // Create a suspend function that calls the DAO's insert function inside a coroutine
+    private suspend fun insertItem(photoStore: PhotoStore, itemView: View) {
+        withContext(Dispatchers.IO) {
+            val db = OvaleDatabase.getInstance(itemView.context)
+            photoDao = db.photoDao() // initialized photoDao
+            var ret = photoDao.insert(photoStore)
+            Log.d(">>>>>>>>>>>>>>", "insertItem: $ret")
+            Log.d(">>>>>>>>>>>>>>", "item: $photoStore")
+        }
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var viewHolder = PhotoViewHolder(
+        return PhotoViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_photo_card, parent, false)
         )
-
-        viewHolder.heartImageView.setOnClickListener {
-            Toast.makeText(parent.context, "Heart Loved", Toast.LENGTH_SHORT).show()
-        }
-        return viewHolder
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -41,6 +62,23 @@ class RecyclerAdapter(private var photos: List<Photo>) :
             val intent = Intent(holder.itemView.context, PhotoActivity::class.java)
             intent.putPhotoExtra("photo", photos[position])
             startActivity(holder.itemView.context, intent, null)
+        }
+
+        // on clicking heart , save Photo data to database
+        holder.itemView.findViewById<ImageView>(R.id.heart_image_view).setOnClickListener {
+            Toast.makeText(holder.itemView.context, "Saved to Favorites", Toast.LENGTH_SHORT).show()
+
+            // write code to create PhotoDao object and insert photo data to database
+            val photoStore = PhotoStore()
+            // generate uuid 4 for photo
+            photoStore.id = java.util.UUID.randomUUID().toString()
+            photoStore.date_added = System.currentTimeMillis()
+            photoStore.photo_url = photos[position].urls?.regular
+            photoStore.photo_link = photos[position].links?.html
+
+            coroutineScope.launch {
+                insertItem(photoStore, holder.itemView)
+            }
         }
 
         when (holder) {
@@ -67,7 +105,7 @@ class RecyclerAdapter(private var photos: List<Photo>) :
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
 
-        val binding = ItemPhotoCardBinding.bind(itemView)
+        private val binding = ItemPhotoCardBinding.bind(itemView)
 
         private val photoImage: ImageView = itemView.findViewById(R.id.imageView)
         val heartImageView: ImageView = itemView.findViewById(R.id.heart_image_view)

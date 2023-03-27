@@ -41,12 +41,20 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-
-        binding.buttonPhoto.setOnClickListener {
+        // setOnClickListener for collection button
+        binding.collectionsButton.setOnClickListener {
             // intent can be done from activity only, so "activity" is passed instead of the "this".
             val intent = Intent(baseContext, CollectionActivity::class.java)
             startActivity(intent)
         }
+
+        // setOnClickListener for favourites button
+        binding.favouritesButton.setOnClickListener {
+            // intent can be done from activity only, so "activity" is passed instead of the "this".
+            val intent = Intent(baseContext, FavouritesActivity::class.java)
+            startActivity(intent)
+        }
+
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

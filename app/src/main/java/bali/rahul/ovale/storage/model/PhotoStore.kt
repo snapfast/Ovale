@@ -10,14 +10,12 @@ import kotlinx.parcelize.Parcelize
 @Keep
 @Parcelize
 @Entity(
-    tableName = "ovale_collections",
+    tableName = "ovale_photos",
     indices = [Index(value = ["date_added"])]
 )
-data class Collection(
-
-    @PrimaryKey val id: String = "",
-    val title: String? = null,
-    val user_name: String? = null,
-    val cover_photo: String? = null,
-    var date_added: Long? = null
+data class PhotoStore(
+    @PrimaryKey var id: String = "",
+    var date_added: Long? = null,
+    var photo_url: String? = null,
+    var photo_link: String? = null,
 ) : Parcelable

@@ -1,9 +1,10 @@
 package bali.rahul.ovale.dataModel
 
-import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Photo(
 
 
@@ -27,60 +28,4 @@ data class Photo(
     @SerializedName("user") var user: User? = User()
 
 
-) : Parcelable {
-    constructor(parcel: Parcel) : this(
-        parcel.readString(),
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readInt() ?: 0,
-        parcel.readInt() ?: 0,
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readParcelable(Urls::class.java.classLoader),
-        parcel.readParcelable(Links::class.java.classLoader),
-        parcel.readInt() ?: 0,
-        parcel.readByte() != 0.toByte(),
-        parcel.createStringArrayList() ?: arrayListOf(),
-        parcel.readString() ?: "",
-        parcel.readParcelable(TopicSubmissions::class.java.classLoader),
-        parcel.readParcelable(User::class.java.classLoader)
-    )
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeString(createdAt)
-        parcel.writeString(updatedAt)
-        parcel.writeString(promotedAt)
-        parcel.writeInt(width ?: 0)
-        parcel.writeInt(height ?: 0)
-        parcel.writeString(color)
-        parcel.writeString(blurHash)
-        parcel.writeString(description)
-        parcel.writeString(altDescription)
-        parcel.writeParcelable(urls, flags)
-        parcel.writeParcelable(links, flags)
-        parcel.writeInt(likes ?: 0)
-        parcel.writeByte(if (likedByUser == true) 1 else 0)
-        parcel.writeStringList(currentUserCollections)
-        parcel.writeString(sponsorship)
-        parcel.writeParcelable(topicSubmissions, flags)
-        parcel.writeParcelable(user, flags)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Photo> {
-        override fun createFromParcel(parcel: Parcel): Photo {
-            return Photo(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Photo?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
+) : Parcelable

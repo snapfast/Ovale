@@ -99,4 +99,8 @@ dependencies {
     // Okio
     implementation 'com.squareup.okio:okio:3.3.0'
 
+    // Lottie
+    implementation 'com.airbnb.android:lottie:6.0.0'
+
+
 }
