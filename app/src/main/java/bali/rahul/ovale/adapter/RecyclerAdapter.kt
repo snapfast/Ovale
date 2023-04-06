@@ -48,7 +48,6 @@ class RecyclerAdapter(private var photos: List<Photo>) :
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return PhotoViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_photo_card, parent, false)
@@ -66,15 +65,29 @@ class RecyclerAdapter(private var photos: List<Photo>) :
 
         // on clicking heart , save Photo data to database
         holder.itemView.findViewById<ImageView>(R.id.heart_image_view).setOnClickListener {
+
+
+            val photoStore: PhotoStore = PhotoStore(id = photos[position].id!!)
+
             Toast.makeText(holder.itemView.context, "Saved to Favorites", Toast.LENGTH_SHORT).show()
 
             // write code to create PhotoDao object and insert photo data to database
-            val photoStore = PhotoStore()
-            // generate uuid 4 for photo
-            photoStore.id = java.util.UUID.randomUUID().toString()
             photoStore.date_added = System.currentTimeMillis()
-            photoStore.photo_url = photos[position].urls?.regular
-            photoStore.photo_link = photos[position].links?.html
+            photoStore.createdAt = photos[position].createdAt
+            photoStore.updatedAt = photos[position].updatedAt
+            photoStore.promotedAt = photos[position].promotedAt
+            photoStore.width = photos[position].width
+            photoStore.height = photos[position].height
+            photoStore.color = photos[position].color
+            photoStore.blurHash = photos[position].blurHash
+            photoStore.description = photos[position].description
+            photoStore.altDescription = photos[position].altDescription
+            photoStore.url_regular = photos[position].urls?.regular
+            photoStore.url_full = photos[position].urls?.full
+            photoStore.link = photos[position].links?.html
+            photoStore.user = photos[position].user?.name
+            photoStore.username = photos[position].user?.username
+            photoStore.likes = photos[position].likes
 
             coroutineScope.launch {
                 insertItem(photoStore, holder.itemView)
@@ -114,14 +127,11 @@ class RecyclerAdapter(private var photos: List<Photo>) :
             binding.authorTextView.text = photo.user?.username
             binding.colorTextView.text = photo.color
 
-            val requestOptions = RequestOptions()
-                .placeholder(R.drawable.ic_launcher_background)
+            val requestOptions = RequestOptions().placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
 
-            Glide.with(itemView.context)
-                .applyDefaultRequestOptions(requestOptions)
-                .load(photo.urls?.regular)
-                .transition(DrawableTransitionOptions.withCrossFade())
+            Glide.with(itemView.context).applyDefaultRequestOptions(requestOptions)
+                .load(photo.urls?.regular).transition(DrawableTransitionOptions.withCrossFade())
                 .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.ALL)
                 .into(photoImage)
         }

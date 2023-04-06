@@ -9,13 +9,21 @@
         android:title="Home"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_favourite"
+        android:id="@+id/action_collections"
+        android:icon="@android:drawable/ic_menu_recent_history"
         android:orderInCategory="200"
+        android:title="Collections"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_favourite"
+        android:icon="@android:drawable/star_off"
+        android:orderInCategory="300"
         android:title="Favourites"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="300"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:orderInCategory="400"
         android:title="@string/action_settings"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>

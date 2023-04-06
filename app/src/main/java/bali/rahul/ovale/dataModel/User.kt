@@ -1,10 +1,10 @@
 package bali.rahul.ovale.dataModel
 
-import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
-
+@Parcelize
 data class User(
 
     @SerializedName("id") var id: String? = null,
@@ -27,62 +27,4 @@ data class User(
     @SerializedName("for_hire") var forHire: Boolean? = null,
     @SerializedName("social") var social: Social? = Social()
 
-) : Parcelable {
-    constructor(parcel: Parcel) : this(
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readParcelable<Links>(Links::class.java.classLoader),
-        parcel.readParcelable(ProfileImage::class.java.classLoader),
-        parcel.readString() ?: "",
-        parcel.readInt() ?: 0,
-        parcel.readInt() ?: 0,
-        parcel.readInt() ?: 0,
-        parcel.readByte() != 0.toByte(),
-        parcel.readByte() != 0.toByte(),
-        parcel.readParcelable(Social::class.java.classLoader)
-    )
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeString(updatedAt)
-        parcel.writeString(username)
-        parcel.writeString(name)
-        parcel.writeString(firstName)
-        parcel.writeString(lastName)
-        parcel.writeString(twitterUsername)
-        parcel.writeString(portfolioUrl)
-        parcel.writeString(bio)
-        parcel.writeString(location)
-        parcel.writeParcelable(links, flags)
-        parcel.writeParcelable(profileImage, flags)
-        parcel.writeString(instagramUsername)
-        parcel.writeInt(totalCollections ?: 0)
-        parcel.writeInt(totalLikes ?: 0)
-        parcel.writeInt(totalPhotos ?: 0)
-        parcel.writeByte(if (acceptedTos == true) 1 else 0)
-        parcel.writeByte(if (forHire == true) 1 else 0)
-        parcel.writeParcelable(social, flags)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<User> {
-        override fun createFromParcel(parcel: Parcel): User {
-            return User(parcel)
-        }
-
-        override fun newArray(size: Int): Array<User?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
+) : Parcelable

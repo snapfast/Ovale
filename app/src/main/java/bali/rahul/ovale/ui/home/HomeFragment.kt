@@ -1,44 +1,47 @@
-package bali.rahul.ovale
+package bali.rahul.ovale.ui.home
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import bali.rahul.ovale.adapter.RecyclerAdapter
 import bali.rahul.ovale.dataModel.Photo
-import bali.rahul.ovale.databinding.ActivityCollectionBinding
+import bali.rahul.ovale.databinding.FragmentHomeBinding
 import bali.rahul.ovale.rest.RestApi
 import bali.rahul.ovale.utils.Internet
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
+class HomeFragment : Fragment() {
 
-class CollectionActivity : AppCompatActivity() {
+    private var _binding: FragmentHomeBinding? = null
 
-    private val TAG = ">>>>>>>>>>>>>TAG hai bencho"
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
-    private lateinit var binding: ActivityCollectionBinding
+    // declare list of Photos
     private var photos: MutableList<Photo> = mutableListOf()
 
     // declare adapter for Photos
     private val adapter = RecyclerAdapter(photos)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val root: View = binding.root
 
-        binding = ActivityCollectionBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        Log.d(TAG, "kuch toh ho rha hai")
-
-        Log.d(TAG, "net toh chal rha hai")
-
-        val internet = Internet()
-
-        if (Internet().isNetworkAvailable(applicationContext)) {
+        // random photo fetch from unsplash
+        if (Internet().isNetworkAvailable(requireContext())) {
             //Here we create background task to fetch info
-            RestApi().retrofit.fetchCollectionPhotos("nB1aKrGZ0XQ")
+            RestApi().retrofit.fetchRandomPhoto()
                 //Everytime you use subscribe you switch to a worker thread
                 .subscribeOn(Schedulers.io())
                 //Observe on lets you get the data in the main thread by using android schedulers
@@ -50,15 +53,24 @@ class CollectionActivity : AppCompatActivity() {
                     { photos -> handleSuccess(photos) },
                     //Error with throwable object
                     { error -> handleError(error) })
+
         } else {
-            Toast.makeText(baseContext, "No Internet Connection", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "No Internet Connection", Toast.LENGTH_LONG).show()
         }
+        return root
     }
+
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
+
 
     private fun handleError(error: Throwable) {
         Log.d(TAG, error.message!!)
         Log.d(TAG, error.stackTraceToString())
-        Toast.makeText(baseContext, error.localizedMessage, Toast.LENGTH_LONG).show()
+        Toast.makeText(this.context, error.localizedMessage, Toast.LENGTH_LONG).show()
     }
 
     private fun handleSuccess(photos: List<Photo>) {
@@ -68,7 +80,7 @@ class CollectionActivity : AppCompatActivity() {
 
         //Set the layout manager for the recycler view
         binding.recyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
         // set adapter to recyclerView
         binding.recyclerView.adapter = adapter
@@ -79,5 +91,5 @@ class CollectionActivity : AppCompatActivity() {
 
     }
 
-}
 
+}

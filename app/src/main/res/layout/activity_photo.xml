@@ -12,19 +12,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/baseline_arrow_back_24"
-        app:title="Material 3 Layout" />
+        app:navigationIcon="@drawable/baseline_arrow_back_24" />
 
+    <!-- Fill style for M3 CardView
+    https://github.com/material-components/material-components-android/blob/master/docs/components/Card.md#elevated-card
+    -->
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewPhoto"
+        style="?attr/materialCardViewFilledStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="5dp"
+        app:cardCornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,32 +40,71 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter" />
 
-            <TextView
-                android:id="@+id/description_text_view"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description"
-                android:textSize="20sp" />
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/date_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Date"
-                android:textSize="16sp" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/description_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
 
-            <TextView
-                android:id="@+id/link_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="Link" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/date_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/description_text_view"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/link_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/date_text_view"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewPhoto">
+
+        <Button
+            android:id="@+id/download_photo"
+            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/download"
+            app:icon="@android:drawable/ic_menu_save" />
+
+        <Button
+            android:id="@+id/set_wallpaper"
+            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/set_wallpaper"
+            app:icon="@android:drawable/ic_menu_set_as" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
