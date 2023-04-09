@@ -1,8 +1,10 @@
 package bali.rahul.ovale.dataModel
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
-
+@Parcelize
 data class CoverPhoto(
 
     @SerializedName("id") var id: String? = null,
@@ -24,4 +26,4 @@ data class CoverPhoto(
     @SerializedName("topic_submissions") var topicSubmissions: TopicSubmissions? = TopicSubmissions(),
     @SerializedName("user") var user: User? = User()
 
-)
+) : Parcelable

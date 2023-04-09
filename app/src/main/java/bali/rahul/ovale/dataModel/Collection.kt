@@ -1,8 +1,10 @@
 package bali.rahul.ovale.dataModel
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
-
+@Parcelize
 data class Collection(
 
     @SerializedName("id") var id: String? = null,
@@ -23,4 +25,4 @@ data class Collection(
     @SerializedName("preview_photos") var previewPhotos: ArrayList<PreviewPhotos> = arrayListOf(),
     @SerializedName("meta") var meta: Meta? = Meta()
 
-)
+) : Parcelable

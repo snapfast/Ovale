@@ -6,7 +6,7 @@
    and
    fragments
 2. `auth` - contains the code for authorizing the API services used in the app
-3. `dataModel - contains all the data models and parcelized classes
+3. `dataModel` - contains all the data models and parcelized classes
 4. `glide` - glide modules and some provider settings to make glide more effective (unused)
 5. `rest` - contains the kotlin files for doing the networking for the app
 6. `service` - contains the services which are needed for handover tasks that can be handled in a

@@ -9,16 +9,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import bali.rahul.ovale.adapter.RecyclerAdapter
+import bali.rahul.ovale.adapter.PhotoRecyclerAdapter
 import bali.rahul.ovale.dataModel.Photo
 import bali.rahul.ovale.databinding.FragmentHomeBinding
 import bali.rahul.ovale.rest.RestApi
 import bali.rahul.ovale.utils.Internet
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class HomeFragment : Fragment() {
 
+    private lateinit var xx: Disposable
     private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and
@@ -29,7 +31,7 @@ class HomeFragment : Fragment() {
     private var photos: MutableList<Photo> = mutableListOf()
 
     // declare adapter for Photos
-    private val adapter = RecyclerAdapter(photos)
+    private val adapter = PhotoRecyclerAdapter(photos)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -41,7 +43,7 @@ class HomeFragment : Fragment() {
         // random photo fetch from unsplash
         if (Internet().isNetworkAvailable(requireContext())) {
             //Here we create background task to fetch info
-            RestApi().retrofit.fetchRandomPhoto()
+            xx = RestApi().retrofit.fetchRandomPhoto()
                 //Everytime you use subscribe you switch to a worker thread
                 .subscribeOn(Schedulers.io())
                 //Observe on lets you get the data in the main thread by using android schedulers
@@ -60,12 +62,15 @@ class HomeFragment : Fragment() {
         return root
     }
 
-
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        //Dispose the disposable object
+        if (xx.isDisposed) {
+            Log.d(TAG, "Disposable object is disposed")
+        } else {
+            xx.dispose()
+        }
+    }
 
     private fun handleError(error: Throwable) {
         Log.d(TAG, error.message!!)
@@ -74,9 +79,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun handleSuccess(photos: List<Photo>) {
-
-        var imageSize = photos.size.toString()
-        Log.d(TAG, imageSize)
 
         //Set the layout manager for the recycler view
         binding.recyclerView.layoutManager =
@@ -90,6 +92,4 @@ class HomeFragment : Fragment() {
         adapter.setPhotos(this.photos)
 
     }
-
-
 }

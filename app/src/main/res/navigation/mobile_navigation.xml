@@ -8,18 +8,18 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="bali.rahul.ovale.ui.home.HomeFragment"
-        android:label="home"
+        android:label="Ovale"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_collections"
         android:name="bali.rahul.ovale.ui.collections.CollectionsFragment"
-        android:label="collections"
+        android:label="Collections"
         tools:layout="@layout/fragment_collections" />
 
     <fragment
         android:id="@+id/navigation_favourites"
         android:name="bali.rahul.ovale.ui.favourites.FavouritesFragment"
-        android:label="favourites"
+        android:label="Favourites"
         tools:layout="@layout/fragment_favourites" />
 </navigation>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="simple_items">
+        <!-- This array is used to set the time interval for the wallpaper changing mode. -->
+        <item>Every Minute</item>
+        <item>Every 15 Minutes</item>
+        <item>Every 30 Minutes</item>
+        <item>Every Hour</item>
+        <item>Every 2 Hours</item>
+        <item>Every 6 Hours</item>
+        <item>Every 12 Hours</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Yearly</item>
+    </string-array>
+</resources>

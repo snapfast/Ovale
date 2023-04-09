@@ -3,27 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="bali.rahul.ovale.MainActivity">
     <item
-        android:id="@+id/action_home"
-        android:icon="@drawable/baseline_home_24"
-        android:orderInCategory="100"
-        android:title="Home"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_collections"
-        android:icon="@android:drawable/ic_menu_recent_history"
-        android:orderInCategory="200"
-        android:title="Collections"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_favourite"
-        android:icon="@android:drawable/star_off"
-        android:orderInCategory="300"
-        android:title="Favourites"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
+
         android:orderInCategory="400"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>
