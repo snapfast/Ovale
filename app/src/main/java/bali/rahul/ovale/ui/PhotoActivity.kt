@@ -50,7 +50,7 @@ class PhotoActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
         // check parcelable object key is not found
-        if (!intent.hasExtra("photo") || intent.getParcelableExtra<Photo>("photo") == null) {
+        if (!intent.hasExtra("photo")) {
             Log.e(tag, "No photo data received")
             Toast.makeText(this, "No photo data received", Toast.LENGTH_SHORT).show()
             finish()
