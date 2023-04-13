@@ -22,14 +22,17 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PhotoActivity : AppCompatActivity() {
 
 
     private lateinit var parcelPhoto: Photo
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    var dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
 
-    private val TAG = "<<<<<<<<<<<<PhotoActivity>>>>>>>>>>>>"
+    private val tag = "<<<<PhotoActivity>>>>"
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -46,14 +49,27 @@ class PhotoActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
-        // Retrieve the parcelable data from the intent
-        parcelPhoto = intent.getParcelableExtra<Photo>("photo", Photo::class.java)!!
+        // check parcelable object key is not found
+        if (!intent.hasExtra("photo") || intent.getParcelableExtra<Photo>("photo") == null) {
+            Log.e(tag, "No photo data received")
+            Toast.makeText(this, "No photo data received", Toast.LENGTH_SHORT).show()
+            finish()
+        }
 
-        Log.i(TAG, "Received photo data: $parcelPhoto")
+        // Retrieve the parcelable data from the intent
+        parcelPhoto = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            // this is for API 29 and below
+            intent.getParcelableExtra("photo")!!
+        } else {
+            // this is for API 30 and above
+            intent.getParcelableExtra("photo", Photo::class.java)!!
+        }
+
+        Log.i(tag, "Received photo data: $parcelPhoto")
 
         // Set the image using Glide
 
-        Log.d(TAG, "Received photo data: $parcelPhoto")
+        Log.d(tag, "Received photo data: $parcelPhoto")
 
         val requestOptions = RequestOptions().placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_background)
@@ -64,9 +80,12 @@ class PhotoActivity : AppCompatActivity() {
             .into(photoImage)
         photoImage.contentDescription = parcelPhoto.altDescription
 
+        val dd =
+            SimpleDateFormat("EEEE, MMMM dd, yyyy").format(dateFormat.parse(parcelPhoto.createdAt!!)!!)
+
         // Set the text
         binding.descriptionTextView.text = parcelPhoto.altDescription
-        binding.dateTextView.text = parcelPhoto.createdAt
+        binding.dateTextView.text = dd.toString()
         binding.linkTextView.text = parcelPhoto.links?.html
         binding.toolbar.title = parcelPhoto.user?.name + " - " + parcelPhoto.user?.username
 
@@ -89,7 +108,7 @@ class PhotoActivity : AppCompatActivity() {
 
         val request = DownloadManager.Request(Uri.parse(parcelPhoto.urls?.full)).apply {
             setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
-            setTitle("Downloading Photo from ${parcelPhoto.user?.name}.jpg}")
+            setTitle("Downloading Photo from ${parcelPhoto.user?.name}.jpg")
             setDescription("Downloading an image from ${parcelPhoto.links?.html}")
             setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             setDestinationInExternalPublicDir(

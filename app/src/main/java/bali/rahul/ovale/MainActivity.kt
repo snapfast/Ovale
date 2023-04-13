@@ -15,7 +15,6 @@ import androidx.navigation.ui.setupWithNavController
 import bali.rahul.ovale.databinding.ActivityMainBinding
 import bali.rahul.ovale.ui.SettingsActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.color.DynamicColors
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
@@ -24,16 +23,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
 
-    private val TAG = ">>>>>>>>>>>>>MAIN ACTIVITY"
+    private val TAG = ">>>>>>MAIN ACTIVITY"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // Make the status bar and navigation bar dynamic colors using Material 3 Components
         // WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-
-        // Set the theme to the one selected by the user
-        DynamicColors.applyToActivitiesIfAvailable(application)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

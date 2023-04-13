@@ -40,6 +40,8 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        Log.d(TAG, "onCreateView: first fragment opening...")
+
         // random photo fetch from unsplash
         if (Internet().isNetworkAvailable(requireContext())) {
             //Here we create background task to fetch info

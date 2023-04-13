@@ -1,7 +1,5 @@
 package bali.rahul.ovale.adapter
 
-// write recyclerview adapter to have image with textview below it
-
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -58,7 +56,9 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
         // Add an onClickListener to the CardView
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, PhotoActivity::class.java)
+            Log.d(">>>>>>>>>>>>>>", "intent: $intent")
             intent.putPhotoExtra("photo", photos[position])
+            Log.d(">>>>>>>>>>>>>>", "opening photo activity: $photos[position]")
             startActivity(holder.itemView.context, intent, null)
         }
 
@@ -96,6 +96,7 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
         when (holder) {
             is PhotoViewHolder -> {
                 holder.bind(photos[position])
+                Log.d(">>>>>>>>>>>>>>", "binding photot: done inside onBindViewHolder")
             }
         }
     }
@@ -124,6 +125,8 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
         fun bind(photo: Photo) {
             binding.authorTextView.text = photo.user?.username
             binding.colorTextView.text = photo.color
+
+            Log.d(">>>>>>>>>>>>>>", "binding done using PhotoViewHolder")
 
             val requestOptions = RequestOptions().placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)

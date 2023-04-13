@@ -30,3 +30,6 @@ interface NetworkApi {
     fun fetchSearchPhotos(@Path("query") query: String): Single<List<Photo>>
 
 }
+
+// Facebook API for instagram
+// https://developers.facebook.com/docs/instagram-api/reference/ig-user/media#reading

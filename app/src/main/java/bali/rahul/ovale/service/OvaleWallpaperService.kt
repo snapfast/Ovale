@@ -122,7 +122,7 @@ class OvaleWallpaperService : BroadcastReceiver() {
                     val wallpaperManager = WallpaperManager.getInstance(context)
 
                     Log.d(
-                        "OvaleWallpaperService", "onReceive: indsode thset AS wallpapaer function"
+                        "OvaleWallpaperService", "onReceive: set as wallpaper companion function"
                     )
                     wallpaperManager.setBitmap(resource)
                     Toast.makeText(context, "Wallpaper Set", Toast.LENGTH_SHORT).show()
