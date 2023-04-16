@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 /**
  * A simple [Fragment] subclass.
- * Use the [CollectionsFragment.newInstance] factory method to
+ * Use the [CollectionsFragment] factory method to
  * create an instance of this fragment.
  */
 class CollectionsFragment : Fragment() {
@@ -52,7 +52,7 @@ class CollectionsFragment : Fragment() {
                 //Everytime you use subscribe you switch to a worker thread
                 .subscribeOn(Schedulers.io())
                 //Observe on lets you get the data in the main thread by using android schedulers
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.from(requireActivity().mainLooper, true))
                 //When you subscribe this is the time you can handle the error or success or the data
                 //.subscribe(this::handleSuccess, this::handleError)
                 .subscribe(
@@ -66,10 +66,10 @@ class CollectionsFragment : Fragment() {
         return root
     }
 
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     private fun handleError(error: Throwable) {
         Log.d(TAG, error.message!!)
@@ -79,12 +79,12 @@ class CollectionsFragment : Fragment() {
 
     private fun handleSuccess(collectionList: List<Collection>) {
 
+        // set adapter to recyclerView
+        binding.recyclerView.adapter = adapter
+
         //Set the layout manager for the recycler view
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-
-        // set adapter to recyclerView
-        binding.recyclerView.adapter = adapter
 
         // Add data to the adapter
         this.collections = collectionList

@@ -49,9 +49,8 @@ class HomeFragment : Fragment() {
                 //Everytime you use subscribe you switch to a worker thread
                 .subscribeOn(Schedulers.io())
                 //Observe on lets you get the data in the main thread by using android schedulers
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.from(requireActivity().mainLooper, true))
                 //When you subscribe this is the time you can handle the error or success or the data
-                //.subscribe(this::handleSuccess, this::handleError)
                 .subscribe(
                     //Success with photo object
                     { photos -> handleSuccess(photos) },

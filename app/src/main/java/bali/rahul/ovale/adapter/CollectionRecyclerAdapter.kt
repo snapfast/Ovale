@@ -77,6 +77,7 @@ class CollectionRecyclerAdapter(private var collections: List<Collection>) :
                 .into(binding.image)
         }
     }
+
 }
 
 fun Intent.putCollectionExtra(key: String, value: Collection) {

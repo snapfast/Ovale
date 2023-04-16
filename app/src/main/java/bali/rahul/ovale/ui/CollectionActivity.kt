@@ -1,12 +1,10 @@
 package bali.rahul.ovale.ui
 
-import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import bali.rahul.ovale.adapter.PhotoRecyclerAdapter
@@ -15,7 +13,6 @@ import bali.rahul.ovale.dataModel.Photo
 import bali.rahul.ovale.databinding.ActivityCollectionBinding
 import bali.rahul.ovale.rest.RestApi
 import bali.rahul.ovale.utils.Internet
-import com.google.android.material.color.DynamicColors
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -31,34 +28,29 @@ class CollectionActivity : AppCompatActivity() {
     private val adapter = PhotoRecyclerAdapter(collectionPhotos)
 
 
-    private val TAG = ">>>>>>>>>>>>>MAIN ACTIVITY"
+    private val tag = ">>>>>Collection"
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        // Make the status bar and navigation bar dynamic colors using Material 3 Components
-        // WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-
-        // Set the theme to the one selected by the user
-        DynamicColors.applyToActivitiesIfAvailable(application)
 
         binding = ActivityCollectionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Action bar connect with toolbar
         setSupportActionBar(binding.toolbar)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
 
         // Retrieve the parcelable data from the intent
-        parcelCollection = intent.getParcelableExtra("collection", Collection::class.java)!!
+        parcelCollection = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("collection")!!
+        } else {
+            intent.getParcelableExtra("collection", Collection::class.java)!!
+        }
 
         // Set the title of the activity
         supportActionBar?.title = parcelCollection.title
-
 
         // random photo fetch from unsplash
         if (Internet().isNetworkAvailable(this)) {
@@ -86,7 +78,7 @@ class CollectionActivity : AppCompatActivity() {
         super.onDestroy()
         //Dispose the disposable object
         if (xx.isDisposed) {
-            Log.d(TAG, "Disposable object is disposed")
+            Log.d(tag, "Disposable object is disposed")
         } else {
             xx.dispose()
         }
@@ -101,22 +93,25 @@ class CollectionActivity : AppCompatActivity() {
         if (requestCode == 101) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // storage permission granted
-                Log.d(TAG, "Storage permission granted")
+                Log.d(tag, "Storage permission granted")
             } else {
                 // storage permission denied
-                Log.d(TAG, "Storage permission denied")
+                Log.d(tag, "Storage permission denied")
             }
         }
     }
 
 
     private fun handleError(error: Throwable) {
-        Log.d(ContentValues.TAG, error.message!!)
-        Log.d(ContentValues.TAG, error.stackTraceToString())
+        Log.d(tag, error.message!!)
+        Log.d(tag, error.stackTraceToString())
         Toast.makeText(this, error.localizedMessage, Toast.LENGTH_LONG).show()
     }
 
     private fun handleSuccess(photos: List<Photo>) {
+
+        Log.d(tag, "CollectionPhotos: ${photos.size}")
+        photos.forEach { Log.d(tag, "CollectionPhotos: ${it.id}") }
 
         //Set the layout manager for the recycler view
         binding.recyclerView.layoutManager =

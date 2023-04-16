@@ -9,7 +9,10 @@ class OvaleApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val colorOptions = DynamicColorsOptions.Builder().build()
-        DynamicColors.applyToActivitiesIfAvailable(this, colorOptions)
+        // use dyanmic colors for android 12 and above
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            val colorOptions = DynamicColorsOptions.Builder().build()
+            DynamicColors.applyToActivitiesIfAvailable(this, colorOptions)
+        }
     }
 }
