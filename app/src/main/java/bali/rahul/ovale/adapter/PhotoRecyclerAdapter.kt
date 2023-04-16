@@ -18,6 +18,7 @@ import bali.rahul.ovale.storage.dao.PhotoDao
 import bali.rahul.ovale.storage.model.PhotoStore
 import bali.rahul.ovale.ui.PhotoActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.coroutines.CoroutineScope
@@ -133,7 +134,7 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
 
             Glide.with(itemView.context).applyDefaultRequestOptions(requestOptions)
                 .load(photo.urls?.regular).transition(DrawableTransitionOptions.withCrossFade())
-                .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(photoImage)
         }
     }

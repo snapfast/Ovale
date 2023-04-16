@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
 
 class OvaleWallpaperService : BroadcastReceiver() {
 
-    private lateinit var photoStoreList: List<PhotoStore>
+    private var photoStoreList: List<PhotoStore> = listOf()
 
     // Define a coroutine scope
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
@@ -40,79 +40,50 @@ class OvaleWallpaperService : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
 
         // Read all photoStore from DB
+        if (context == null) {
+            Log.d("OvaleWallpaperService", "onReceive: context is null")
+            return
+        }
 
         // write data from db to textview
         coroutineScope.launch {
+            readFavourites(context)
 
-            if (context != null) {
+            val storage = Storage(context)
 
-                val storage = Storage(context)
-
-                // Read all photoStore from DB
-                readFavourites(context)
-
-                // read value from shared prefs
-                var wallpaperCounter = storage.get("wallpaperNumber", 1) as Int?
-                if (wallpaperCounter == null) {
-                    Log.d("OvaleWallpaperService", "onReceive: wallpaperCounter is null")
-                    storage.save("wallpaperNumber", 0)
-                    wallpaperCounter = 0
-                }
-
-                // check photoStoreList is empty
-                if (photoStoreList.isEmpty()) {
-                    Log.d("OvaleWallpaperService", "onReceive: photoStoreList is empty")
-                    return@launch
-                }
-
-                // check if wallpaperCounter is greater than photoStoreList size
-                if (wallpaperCounter >= photoStoreList.size) {
-                    Log.d(
-                        "OvaleWallpaperService",
-                        "onReceive: wallpaperCounter is greater than photoStoreList size"
-                    )
-                    wallpaperCounter = 0
-                }
-
-                Log.d("OvaleWallpaperService", "onReceive: $wallpaperCounter")
-                Log.d("OvaleWallpaperService", "onReceive: ${photoStoreList[wallpaperCounter]}")
-
-                // set wallpaper
-                Glide.with(context).asBitmap().load(photoStoreList[wallpaperCounter].url_full)
-                    .into(object : CustomTarget<Bitmap>() {
-                        override fun onResourceReady(
-                            resource: Bitmap, transition: Transition<in Bitmap>?
-                        ) {
-                            val wallpaperManager = WallpaperManager.getInstance(context)
-
-                            Log.d(
-                                "OvaleWallpaperService",
-                                "onReceive: indsode thset AS wallpapaer function"
-                            )
-                            wallpaperManager.setBitmap(resource)
-                        }
-
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            // do nothing
-                        }
-                    })
-
-                withContext(Dispatchers.Main) {
-                    // Update the UI here
-
-                    Toast.makeText(context, "Wallpaper Set", Toast.LENGTH_SHORT).show()
-                }
-
+            // read value from shared prefs
+            var wallpaperCounter: Int? = storage.get("wallpaperNumber", 1) as Int?
+            if (wallpaperCounter == null) {
+                Log.d("OvaleWallpaperService", "onReceive: wallpaperCounter is null")
+                storage.save("wallpaperNumber", 0)
+                wallpaperCounter = 0
+            }
+            // check photoStoreList is empty
+            if (photoStoreList.isEmpty()) {
+                Log.d("OvaleWallpaperService", "onReceive: photoStoreList is empty")
+                return@launch
+            }
+            // check if wallpaperCounter is greater than photoStoreList size
+            if (wallpaperCounter >= photoStoreList.size) {
                 Log.d(
                     "OvaleWallpaperService",
-                    "wallpaper applied: ${photoStoreList[wallpaperCounter]}"
+                    "onReceive: wallpaperCounter is greater than photoStoreList size"
                 )
-                storage.save("wallpaperNumber", wallpaperCounter + 1)
+                wallpaperCounter = 0
             }
+            Log.d("OvaleWallpaperService", "onReceive: $wallpaperCounter")
+            Log.d("OvaleWallpaperService", "onReceive: ${photoStoreList[wallpaperCounter]}")
+
+            // set wallpaper
+            setAsWallpaper(photoStoreList[wallpaperCounter].url_regular!!, context)
+            Log.d("OvaleWPService", "wallpaper applied: ${photoStoreList[wallpaperCounter]}")
+            storage.save("wallpaperNumber", wallpaperCounter + 1)
         }
     }
 
     companion object {
+
+        val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
         fun setAsWallpaper(url: String, context: Context) {
             Glide.with(context).asBitmap().load(url).into(object : CustomTarget<Bitmap>() {
@@ -120,12 +91,13 @@ class OvaleWallpaperService : BroadcastReceiver() {
                     resource: Bitmap, transition: Transition<in Bitmap>?
                 ) {
                     val wallpaperManager = WallpaperManager.getInstance(context)
-
-                    Log.d(
-                        "OvaleWallpaperService", "onReceive: set as wallpaper companion function"
-                    )
-                    wallpaperManager.setBitmap(resource)
-                    Toast.makeText(context, "Wallpaper Set", Toast.LENGTH_SHORT).show()
+                    coroutineScope.launch {
+                        withContext(Dispatchers.Main) {
+                            // Update the UI here
+                            Toast.makeText(context, "Wallpaper Set", Toast.LENGTH_SHORT).show()
+                        }
+                        wallpaperManager.setBitmap(resource)
+                    }
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
@@ -133,8 +105,6 @@ class OvaleWallpaperService : BroadcastReceiver() {
                 }
             })
         }
-
     }
+
 }
-
-

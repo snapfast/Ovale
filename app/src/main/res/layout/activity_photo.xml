@@ -71,6 +71,14 @@
                         android:textColor="?attr/colorOnSurface" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textViewLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/textViewDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -78,74 +86,132 @@
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?attr/colorOnSurface" />
 
-                    <com.google.android.flexbox.FlexboxLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:alignItems="stretch"
-                        app:flexWrap="wrap"
-                        app:justifyContent="space_between">
-
-                        <TextView
-                            android:id="@+id/description_label"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:text="Description"
-                            app:layout_alignSelf="center"
-                            app:layout_flexBasisPercent="50%" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:text="Item 3"
-                            app:layout_alignSelf="center"
-                            app:layout_flexBasisPercent="50%" />
-
-                        <TextView
-                            android:id="@+id/focus_text_view"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:text="Item 2"
-                            app:layout_alignSelf="center"
-                            app:layout_flexBasisPercent="50%" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:text="Item 4"
-                            app:layout_alignSelf="center"
-                            app:layout_flexBasisPercent="50%" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/date_text_view"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:text="Item 5"
-                            app:layout_alignSelf="center"
-                            app:layout_flexBasisPercent="50%" />
-
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/rtyu_text_view"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            app:layout_alignSelf="center"
-                            app:layout_flexBasisPercent="50%" />
-
-                    </com.google.android.flexbox.FlexboxLayout>
-
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/link_text_view"
-                        android:layout_width="0dp"
+                        android:id="@+id/textViewLink"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:autoLink="web"
                         android:linksClickable="true"
-                        android:padding="5dp" />
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            app:flexDirection="column">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text="Camera"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text="ISO"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text="Aperture"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text="Focal Length"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text="Dimensions"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text="Location"
+                                android:textSize="14sp" />
+
+                        </com.google.android.flexbox.FlexboxLayout>
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:flexDirection="column">
+
+                            <TextView
+                                android:id="@+id/textViewCamera"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:padding="8dp"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/textViewISO"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:padding="8dp"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/textViewAperture"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:padding="8dp"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/textViewFocalLength"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:padding="8dp"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/textViewDimensions"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:padding="8dp"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/textViewShutterSpeed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:padding="8dp"
+                                android:textSize="14sp" />
+
+                        </com.google.android.flexbox.FlexboxLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -176,6 +242,14 @@
                     android:layout_margin="8dp"
                     android:text="@string/set_wallpaper"
                     app:icon="@android:drawable/ic_menu_set_as" />
+
+                <Button
+                    android:id="@+id/share_photo"
+                    style="@style/Widget.Material3.Button.ElevatedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:icon="@android:drawable/ic_menu_share" />
 
 
             </LinearLayout>

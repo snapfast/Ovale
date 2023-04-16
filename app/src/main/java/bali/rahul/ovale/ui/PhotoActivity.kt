@@ -1,6 +1,7 @@
 package bali.rahul.ovale.ui
 
 import android.app.DownloadManager
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -22,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
+
 
 class PhotoActivity : AppCompatActivity() {
 
@@ -69,17 +71,36 @@ class PhotoActivity : AppCompatActivity() {
 
         Glide.with(this).applyDefaultRequestOptions(requestOptions).load(parcelPhoto.urls?.regular)
             .transition(DrawableTransitionOptions.withCrossFade())
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(binding.imageView)
+            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imageView)
         binding.imageView.contentDescription = parcelPhoto.altDescription
 
         val dd = outDateFormat.format(inDateFormat.parse(parcelPhoto.createdAt!!)!!)
 
         // Set the text
         binding.textViewDescription.text = parcelPhoto.altDescription
-        binding.dateTextView.text = dd.toString()
-        binding.linkTextView.text = parcelPhoto.links?.html
+        binding.textViewDate.text = dd.toString()
+        binding.textViewLink.text = parcelPhoto.links?.html
         binding.textViewTitle.text = parcelPhoto.user?.name
+        binding.textViewLocation.text =
+            parcelPhoto.location?.city + ", " + parcelPhoto.location?.country
+        try {
+            binding.sharePhoto.setOnClickListener {
+                val shareUrl = parcelPhoto.links?.html
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareUrl)
+                startActivity(Intent.createChooser(shareIntent, "Share URL"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error: $e")
+        }
+        binding.textViewCamera.text = parcelPhoto.exif?.model
+        binding.textViewFocalLength.text = parcelPhoto.exif?.focalLength
+        binding.textViewAperture.text = parcelPhoto.exif?.aperture
+        binding.textViewShutterSpeed.text = parcelPhoto.exif?.exposureTime
+        binding.textViewISO.text = parcelPhoto.exif?.iso.toString()
+        binding.textViewDimensions.text =
+            parcelPhoto.width.toString() + " x " + parcelPhoto.height.toString()
 
 
         // On Click Download Button, download the image using Glide to new_folder
