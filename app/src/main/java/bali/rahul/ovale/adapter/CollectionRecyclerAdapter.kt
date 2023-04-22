@@ -12,6 +12,7 @@ import bali.rahul.ovale.dataModel.Collection
 import bali.rahul.ovale.databinding.ItemCollectionCardBinding
 import bali.rahul.ovale.ui.CollectionActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 
@@ -73,7 +74,7 @@ class CollectionRecyclerAdapter(private var collections: List<Collection>) :
             Glide.with(itemView.context).applyDefaultRequestOptions(requestOptions)
                 .load(collection.coverPhoto?.urls?.regular)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(binding.image)
         }
     }

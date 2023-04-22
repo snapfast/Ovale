@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "onCreateView: first fragment opening...")
 
         // random photo fetch from unsplash
-        if (Internet().isNetworkAvailable(requireContext())) {
+        if (Internet.isNetworkAvailable(requireContext())) {
             //Here we create background task to fetch info
             xx = RestApi().retrofit.fetchRandomPhoto()
                 //Everytime you use subscribe you switch to a worker thread

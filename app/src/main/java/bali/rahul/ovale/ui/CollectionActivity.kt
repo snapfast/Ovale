@@ -53,7 +53,7 @@ class CollectionActivity : AppCompatActivity() {
         supportActionBar?.title = parcelCollection.title
 
         // random photo fetch from unsplash
-        if (Internet().isNetworkAvailable(this)) {
+        if (Internet.isNetworkAvailable(this)) {
             //Here we create background task to fetch info
             xx = RestApi().retrofit.fetchCollectionPhotos(parcelCollection.id!!)
                 //Everytime you use subscribe you switch to a worker thread

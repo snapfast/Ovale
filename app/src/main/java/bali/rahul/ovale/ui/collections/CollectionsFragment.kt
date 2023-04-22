@@ -46,7 +46,7 @@ class CollectionsFragment : Fragment() {
         _binding = FragmentCollectionsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        if (Internet().isNetworkAvailable(requireContext())) {
+        if (Internet.isNetworkAvailable(requireContext())) {
             //Here we create background task to fetch info
             RestApi().retrofit.fetchCollections()
                 //Everytime you use subscribe you switch to a worker thread

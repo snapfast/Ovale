@@ -1,47 +1,42 @@
 package bali.rahul.ovale.utils
 
-import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
 import android.net.NetworkCapabilities
+import android.os.Build
 
 class Internet {
 
-    fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkCapabilities = connectivityManager.activeNetwork ?: return false
-        val activeNetwork =
-            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-        return when {
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            // for other devices which are able to connect with Ethernet
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-            // for VPN connections
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> true
-            else -> false
-        }
-    }
-
     companion object {
-        fun isNetworkAvailable(activity: Activity): Boolean {
+        fun isNetworkAvailable(context: Context): Boolean {
+
+            lateinit var network: Network
+
             val connectivityManager =
-                activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val networkCapabilities = connectivityManager.activeNetwork ?: return false
-            val activeNetwork =
-                connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-            return when {
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                // for other devices which are able to connect with Ethernet
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                // for VPN connections
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> true
-                else -> false
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                network = connectivityManager.activeNetwork ?: return false
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val networkCapabilities =
+                    connectivityManager.getNetworkCapabilities(network) ?: return false
+
+
+                return when {
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                    // for other devices which are able to connect with Ethernet
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                    // for VPN connections
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> true
+                    else -> false
+                }
+            } else {
+                return connectivityManager.activeNetworkInfo!!.isConnected
             }
         }
     }
-
-
 }
