@@ -13,13 +13,15 @@ import androidx.appcompat.app.AppCompatActivity
 import bali.rahul.ovale.databinding.ActivitySettingsBinding
 import bali.rahul.ovale.service.OvaleWallpaperService
 import bali.rahul.ovale.storage.Storage
-import java.util.*
+import java.util.Calendar
 
 
 class SettingsActivity : AppCompatActivity() {
 
     // https://github.com/material-components/material-components-android/blob/master/docs/components/Menu.md#exposed-dropdown-menus
 
+
+    private val tag = "SettingsActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,8 +57,59 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+
+        // Save the wallpaper Free or Premium in shared preferences
+        Log.d(tag, "${storage.get("wallpaperFreeOrPremium", 0)}")
+        val storedPremium = storage.get("wallpaperFreeOrPremium", 0) as String?
+        if (storedPremium != null) {
+            binding.autocomplete2.setText(storedPremium, false)
+        }
+        binding.autocomplete2.onItemClickListener = OnItemClickListener { parent, _, position, _ ->
+            when (parent.getItemAtPosition(position) as String) {
+                "Free Photos Only" -> {
+                    storage.save("wallpaperFreeOrPremium", "Free Photos Only")
+                }
+
+                "Unsplash+ only" -> {
+                    storage.save("wallpaperFreeOrPremium", "Unsplash+ only")
+                }
+
+                "Free Photos + Unsplash+" -> {
+                    storage.save("wallpaperFreeOrPremium", "")
+                }
+            }
+        }
+
+
+        // Save the wallpaper Orientation in shared preferences
+        Log.d(tag, "${storage.get("wallpaperOrientation", 0)}")
+        val storedOrientation = storage.get("wallpaperOrientation", 0) as String?
+        if (storedOrientation != null) {
+            binding.autocomplete3.setText(storedOrientation, false)
+        }
+        binding.autocomplete3.onItemClickListener = OnItemClickListener { parent, _, position, _ ->
+            when (parent.getItemAtPosition(position) as String) {
+                "Portrait" -> {
+                    storage.save("wallpaperOrientation", "portrait")
+                }
+
+                "Landscape" -> {
+                    storage.save("wallpaperOrientation", "landscape")
+                }
+
+                "Squarish" -> {
+                    storage.save("wallpaperOrientation", "squarish")
+                }
+
+                "All" -> {
+                    storage.save("wallpaperOrientation", "")
+                }
+            }
+        }
+
+
         // Set the DropDown menu to select the Interval to change the wallpaper
-        Log.d("SettingsActivity", "onCreate: ${storage.get("wallpaperAlarmInterval", 0)}")
+        Log.d(tag, "onCreate: ${storage.get("wallpaperAlarmInterval", 0)}")
         val storedInterval = storage.get("wallpaperAlarmInterval", 0) as String?
         if (storedInterval != null) {
             binding.autocomplete.setText(storedInterval, false)
@@ -126,6 +179,8 @@ class SettingsActivity : AppCompatActivity() {
                     storage.save("wallpaperAlarm", value = 0)
                 }
             }
+
+
         }
     }
 

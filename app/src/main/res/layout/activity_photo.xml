@@ -97,9 +97,9 @@
                         android:textColor="?attr/colorOnSurface" />
 
                     <LinearLayout
-                        android:baselineAligned="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:baselineAligned="false"
                         android:orientation="horizontal">
 
                         <com.google.android.flexbox.FlexboxLayout
@@ -107,7 +107,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_weight="0.5"
+                            android:layout_weight="1"
                             app:flexDirection="column">
 
                             <TextView
@@ -117,50 +117,16 @@
                                 android:textSize="14sp" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/iso"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/aperture"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/focal_length"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/resolution"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/exposure"
-                                android:textSize="14sp" />
-
-                        </com.google.android.flexbox.FlexboxLayout>
-
-                        <com.google.android.flexbox.FlexboxLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight="1.5"
-                            app:flexDirection="column">
-
-                            <TextView
                                 android:id="@+id/textViewCamera"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/iso"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -171,11 +137,35 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/aperture"
+                                android:textSize="14sp" />
+
+                            <TextView
                                 android:id="@+id/textViewAperture"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:padding="8dp"
+                                android:textSize="14sp" />
+
+
+                        </com.google.android.flexbox.FlexboxLayout>
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:flexDirection="column">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/focal_length"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -186,10 +176,23 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/resolution"
+                                android:textSize="14sp" />
+
+                            <TextView
                                 android:id="@+id/textViewResolution"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
+                                android:textSize="14sp" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/exposure"
                                 android:textSize="14sp" />
 
                             <TextView

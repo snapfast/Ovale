@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="simple_items">
+    <string-array name="time_intervals">
         <!-- This array is used to set the time interval for the wallpaper changing mode. -->
         <item>Every Minute</item>
         <item>Every 15 Minutes</item>
@@ -13,5 +13,18 @@
         <item>Weekly</item>
         <item>Monthly</item>
         <item>Yearly</item>
+    </string-array>
+    <string-array name="premium_photos">
+        <!-- This array is used to set the premium photos option. -->
+        <item>Free Photos Only</item>
+        <item>Unsplash+ only</item>
+        <item>Free Photos + Unsplash+</item>
+    </string-array>
+    <string-array name="wallpaper_style">
+        <!-- This array is used to set the wallpaper style. -->
+        <item>Portrait</item>
+        <item>Landscape</item>
+        <item>Squarish</item>
+        <item>All</item>
     </string-array>
 </resources>

@@ -60,4 +60,13 @@
     <string name="search">Search</string>
     <string name="author">Author</string>
     <string name="color_hex">Color Hex</string>
+    <string name="time_interval">Time Interval</string>
+    <string name="orientation">Orientation</string>
+    <string name="unsplash">Unsplash+</string>
+    <string name="unsplash_plus_photos">Unsplash+ Photos</string>
+    <string name="set_orientation">Set Orientation of Wallpapers to load.</string>
+    <string name="enable_wallpaper_changing_mode">Enable Wallpaper Changing Mode</string>
+    <string name="this_options_enables_an_automatic_wallpaper_changing_mode_the_app_will_change_the_wallpaper_every_1_hour_you_can_change_the_time_interval_in_the_settings_below">This options enables an automatic wallpaper changing mode. The app will change the wallpaper every 1 hour. You can change the time interval in the settings below.</string>
+    <string name="set_time_interval_for_auto_wallpaper_changing_mode">Set Time Interval for Auto Wallpaper Changing Mode</string>
+    <string name="general_settings">General Settings</string>
 </resources>

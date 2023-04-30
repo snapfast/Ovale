@@ -27,7 +27,6 @@ class PhotoActivity : AppCompatActivity() {
     private lateinit var parcelPhoto: Photo
     private lateinit var binding: ActivityPhotoBinding
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
-    private lateinit var downloadService: DownloadService
     private var inDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
     private var outDateFormat = SimpleDateFormat("EEEE, MMMM dd, yyyy", Locale.US)
 
@@ -43,10 +42,8 @@ class PhotoActivity : AppCompatActivity() {
         // Set the toolbar with Back button
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
         binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
-
-        // declare download service
-        downloadService = DownloadService()
 
         // check parcelable object key is not found
         if (!intent.hasExtra("photo")) {
@@ -62,9 +59,9 @@ class PhotoActivity : AppCompatActivity() {
             intent.getParcelableExtra("photo", Photo::class.java)!!
         }
 
-        binding.toolbar.title = parcelPhoto.user?.name + " - " + parcelPhoto.user?.username
-
         Log.i(tag, "Received photo data: $parcelPhoto")
+
+        supportActionBar?.title = parcelPhoto.user?.name + " - " + parcelPhoto.user?.username
 
         val requestOptions = RequestOptions().placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_background)
@@ -81,19 +78,17 @@ class PhotoActivity : AppCompatActivity() {
         binding.textViewLink.text = parcelPhoto.links?.html
         binding.textViewTitle.text = parcelPhoto.user?.name
         binding.textViewLocation.text = parcelPhoto.user?.location
-        binding.textViewCamera.text = parcelPhoto.exif?.model
+        binding.textViewCamera.text = makeCameraString()
         binding.textViewFocalLength.text = parcelPhoto.exif?.focalLength
         binding.textViewAperture.text = parcelPhoto.exif?.aperture
         binding.textViewShutterSpeed.text = parcelPhoto.exif?.exposureTime
         binding.textViewISO.text = parcelPhoto.exif?.iso.toString()
-        binding.textViewResolution.text = makeResolutionString(
-            parcelPhoto.width!!, parcelPhoto.height!!
-        )
+        binding.textViewResolution.text = makeResolutionString()
 
         // On Click Download Button, download the image using service
         binding.downloadPhoto.setOnClickListener {
             // download photo
-            coroutineScope.launch { downloadService.downloadPhoto(parcelPhoto) }
+            coroutineScope.launch { DownloadService(baseContext).downloadPhoto(parcelPhoto) }
         }
 
         // On Click Set Wallpaper Button, set the image as wallpaper
@@ -116,8 +111,15 @@ class PhotoActivity : AppCompatActivity() {
         return outDateFormat.format(dd!!).toString()
     }
 
-    private fun makeResolutionString(width: Int, height: Int): String {
-        return "$width x $height"
+    private fun makeResolutionString(): String {
+        return "${parcelPhoto.width!!} x ${parcelPhoto.height!!}"
+    }
+
+    private fun makeCameraString(): String {
+        return buildString {
+            parcelPhoto.exif?.make
+            parcelPhoto.exif?.model
+        }
     }
 
     private fun sharePhoto() {

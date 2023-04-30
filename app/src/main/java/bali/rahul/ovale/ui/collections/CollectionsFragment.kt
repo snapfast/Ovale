@@ -34,6 +34,9 @@ class CollectionsFragment : Fragment() {
     // declare list of Photos
     private var collections: List<Collection> = listOf()
 
+    // declare filtered Collections list
+    private var filteredCollections: MutableList<Collection> = mutableListOf()
+
     // declare adapter for Photos
     private val adapter = CollectionRecyclerAdapter(collections)
 
@@ -86,8 +89,14 @@ class CollectionsFragment : Fragment() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
+        collectionList.forEach { collection ->
+            if (!collection.coverPhoto?.urls!!.regular!!.contains("plus")) {
+                filteredCollections.add(collection)
+            }
+        }
+
         // Add data to the adapter
-        this.collections = collectionList
+        this.collections = filteredCollections
         adapter.setPhotos(this.collections)
 
     }

@@ -64,7 +64,7 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
         }
 
         // on clicking heart , save Photo data to database
-        holder.itemView.findViewById<ImageView>(R.id.heart_image_view).setOnClickListener {
+        holder.itemView.findViewById<ImageView>(R.id.add_image_view).setOnClickListener {
 
             // write code to insert photo data to database
             val photoStore = PhotoStore(id = photos[position].id!!)
@@ -92,6 +92,10 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
                 Toast.makeText(holder.itemView.context, "Saved to Favorites", Toast.LENGTH_SHORT)
                     .show()
             }
+
+            holder.itemView.findViewById<ImageView>(R.id.add_image_view)
+                .setColorFilter(R.color.white)
+
         }
 
         when (holder) {

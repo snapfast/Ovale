@@ -13,6 +13,7 @@ import bali.rahul.ovale.adapter.PhotoRecyclerAdapter
 import bali.rahul.ovale.dataModel.Photo
 import bali.rahul.ovale.databinding.FragmentHomeBinding
 import bali.rahul.ovale.rest.RestApi
+import bali.rahul.ovale.storage.Storage
 import bali.rahul.ovale.utils.Internet
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
@@ -22,6 +23,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var xx: Disposable
     private var _binding: FragmentHomeBinding? = null
+    private var wallpaperFreeOrPremium: String? = ""
+    private var wallpaperOrientation: String? = ""
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -29,6 +32,9 @@ class HomeFragment : Fragment() {
 
     // declare list of Photos
     private var photos: MutableList<Photo> = mutableListOf()
+
+    // declare filtered Photos list
+    private var filteredPhotos: MutableList<Photo> = mutableListOf()
 
     // declare adapter for Photos
     private val adapter = PhotoRecyclerAdapter(photos)
@@ -39,13 +45,14 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        readFromStorage()
 
         Log.d(TAG, "onCreateView: first fragment opening...")
 
         // random photo fetch from unsplash
         if (Internet.isNetworkAvailable(requireContext())) {
             //Here we create background task to fetch info
-            xx = RestApi().retrofit.fetchRandomPhoto()
+            xx = RestApi().retrofit.fetchRandomPhoto(orientation = wallpaperOrientation)
                 //Everytime you use subscribe you switch to a worker thread
                 .subscribeOn(Schedulers.io())
                 //Observe on lets you get the data in the main thread by using android schedulers
@@ -73,6 +80,13 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun readFromStorage() {
+        val storage = Storage(requireContext())
+        wallpaperOrientation = storage.get("wallpaperOrientation", 0) as String?
+        wallpaperFreeOrPremium = storage.get("wallpaperFreeOrPremium", 0) as String?
+
+    }
+
     private fun handleError(error: Throwable) {
         Log.d(TAG, error.message!!)
         Log.d(TAG, error.stackTraceToString())
@@ -88,8 +102,27 @@ class HomeFragment : Fragment() {
         // set adapter to recyclerView
         binding.recyclerView.adapter = adapter
 
+        // filter photos based on free or premium
+        if (wallpaperFreeOrPremium == "Free Photos Only") {
+            photos.forEach { photo ->
+                // filter photos that do not contain specific text in urls
+                if (!photo.urls!!.full!!.contains("plus")) {
+                    filteredPhotos.add(photo)
+                }
+            }
+        } else if (wallpaperFreeOrPremium == "Unsplash+ only") {
+            photos.forEach { photo ->
+                // filter photos that contain specific text in urls
+                if (photo.urls!!.full!!.contains("plus")) {
+                    filteredPhotos.add(photo)
+                }
+            }
+        } else {
+            filteredPhotos = photos.toMutableList()
+        }
+
         // Add data to the adapter
-        this.photos = photos as MutableList<Photo>
+        this.photos = filteredPhotos
         adapter.setPhotos(this.photos)
 
     }

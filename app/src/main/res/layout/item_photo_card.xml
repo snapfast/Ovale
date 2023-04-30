@@ -2,13 +2,13 @@
 
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="?attr/materialCardViewElevatedStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="?attr/materialCardViewElevatedStyle"
-    app:cardCornerRadius="5dp"
     android:layout_margin="10dp"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    app:cardCornerRadius="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                 android:text="@string/color_hex" />
 
             <ImageView
-                android:id="@+id/heart_image_view"
+                android:id="@+id/add_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -55,8 +55,17 @@
                 android:layout_centerVertical="true"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/baseline_favorite_24"
-                app:tint="@color/red" />
+                android:src="@android:drawable/ic_input_add"
+                app:tint="@color/gray" />
+
+            <TextView
+                android:id="@+id/all_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/color_text_view"
+                android:layout_marginTop="6dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
 
         </RelativeLayout>
 

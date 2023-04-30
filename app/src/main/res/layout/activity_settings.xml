@@ -33,15 +33,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Enable Wallpaper Changing Mode"
+            android:text="@string/enable_wallpaper_changing_mode"
             android:textSize="16sp" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:text="This options enables an automatic wallpaper changing mode. The app will change the wallpaper every 1 hour. You can change the time interval in the settings below."
+            android:text="@string/this_options_enables_an_automatic_wallpaper_changing_mode_the_app_will_change_the_wallpaper_every_1_hour_you_can_change_the_time_interval_in_the_settings_below"
             android:textSize="12sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="@string/set_time_interval_for_auto_wallpaper_changing_mode"
+            android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/time_interval"
@@ -49,14 +56,82 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="Time Interval">
+            android:hint="@string/time_interval">
 
             <AutoCompleteTextView
                 android:id="@+id/autocomplete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                app:simpleItems="@array/simple_items"
+                app:simpleItems="@array/time_intervals"
+                tools:ignore="LabelFor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="20dp"
+            android:background="@color/gray"
+            android:paddingVertical="20dp" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/general_settings"
+            android:textSize="18sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="@string/unsplash_plus_photos"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/premium_or_free"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="@string/unsplash"
+            android:paddingBottom="10dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autocomplete2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                app:simpleItems="@array/premium_photos"
+                tools:ignore="LabelFor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="@string/set_orientation"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/orientation"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="@string/orientation"
+            android:paddingBottom="10dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autocomplete3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                app:simpleItems="@array/wallpaper_style"
                 tools:ignore="LabelFor" />
 
         </com.google.android.material.textfield.TextInputLayout>

@@ -1,28 +1,20 @@
 package bali.rahul.ovale.service
 
 import android.app.DownloadManager
-import android.app.Service
 import android.content.Context
-import android.content.Intent
+import android.content.Context.DOWNLOAD_SERVICE
 import android.net.Uri
 import android.os.Environment
-import android.os.IBinder
 import android.widget.Toast
 import bali.rahul.ovale.dataModel.Photo
 import bali.rahul.ovale.utils.Internet
 
-class DownloadService : Service() {
+class DownloadService(private val context: Context) {
 
-    private val downloadManager: DownloadManager by lazy {
-        getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return super.onStartCommand(intent, flags, startId)
-    }
+    private lateinit var downloadManager: DownloadManager
 
     fun downloadPhoto(parcelPhoto: Photo) {
-
+        downloadManager = context.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
 
         val request = DownloadManager.Request(Uri.parse(parcelPhoto.urls?.full)).apply {
             setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
@@ -31,18 +23,15 @@ class DownloadService : Service() {
             setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             setDestinationInExternalPublicDir(
                 Environment.DIRECTORY_PICTURES,
-                "Ovale/${parcelPhoto.user?.username}/${parcelPhoto.id}.jpg"
+                "Ovale/${parcelPhoto.user?.username}-${parcelPhoto.id}.jpg"
             )
         }
         downloadManager.enqueue(request)
-        if (Internet.isNetworkAvailable(this)) {
-            Toast.makeText(this, "Downloading started...", Toast.LENGTH_SHORT).show()
+        if (Internet.isNetworkAvailable(context)) {
+            Toast.makeText(context, "Downloading started...", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "No Internet, Downloading paused...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "No Internet, Downloading paused...", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onBind(p0: Intent?): IBinder? {
-        TODO("Not yet implemented")
-    }
 }
