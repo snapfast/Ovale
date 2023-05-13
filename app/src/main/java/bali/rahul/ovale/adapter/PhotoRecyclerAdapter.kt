@@ -125,8 +125,6 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
 
         private val binding = ItemPhotoCardBinding.bind(itemView)
 
-        private val photoImage: ImageView = itemView.findViewById(R.id.imageView)
-
         fun bind(photo: Photo) {
             binding.authorTextView.text = photo.user?.username
             binding.colorTextView.text = photo.color
@@ -139,7 +137,7 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
             Glide.with(itemView.context).applyDefaultRequestOptions(requestOptions)
                 .load(photo.urls?.regular).transition(DrawableTransitionOptions.withCrossFade())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(photoImage)
+                .into(binding.imageView)
         }
     }
 }

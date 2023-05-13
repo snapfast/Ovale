@@ -99,8 +99,6 @@ class HomeFragment : Fragment() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
-        // set adapter to recyclerView
-        binding.recyclerView.adapter = adapter
 
         // filter photos based on free or premium
         if (wallpaperFreeOrPremium == "Free Photos Only") {
@@ -121,9 +119,11 @@ class HomeFragment : Fragment() {
             filteredPhotos = photos.toMutableList()
         }
 
+        // set adapter to recyclerView
+        binding.recyclerView.adapter = adapter
+
         // Add data to the adapter
-        this.photos = filteredPhotos
-        adapter.setPhotos(this.photos)
+        adapter.setPhotos(filteredPhotos)
 
     }
 }
