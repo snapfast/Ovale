@@ -10,14 +10,14 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "bali.rahul.ovale"
         minSdk 21
-        targetSdk 33
-        versionCode 4
-        versionName "0.13"
+        targetSdk 34
+        versionCode 7
+        versionName "0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -26,10 +26,17 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // Disables PNG crunching for the "release" build type.
             crunchPngs false
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            applicationIdSuffix ".debug"
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -47,29 +54,30 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // required for kotlin to set permissions on activity
-    implementation "androidx.activity:activity-ktx:1.7.0"
+    implementation "androidx.activity:activity-ktx:1.7.2"
 
     // required for kotlin to set permissions on fragment
-    implementation "androidx.fragment:fragment-ktx:1.5.6"
+    implementation "androidx.fragment:fragment-ktx:1.6.0"
     // Testing Fragments in Isolation
-    debugImplementation "androidx.fragment:fragment-testing:1.5.6"
+    debugImplementation "androidx.fragment:fragment-testing:1.6.0"
 
 
     // navigation fragment ktx
-    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
-    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.6.0"
+    implementation "androidx.navigation:navigation-ui-ktx:2.6.0"
 
 
     // retrofit2
@@ -95,9 +103,6 @@ dependencies {
     // (see https://github.com/ReactiveX/RxJava/releases for latest 3.x.x version)
     implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
 
-    // material design 3, version > 1.5.0
-    implementation 'com.google.android.material:material:1.8.0'
-
     // Room
     def room_version = "2.5.1"
     implementation "androidx.room:room-runtime:$room_version"
@@ -113,5 +118,8 @@ dependencies {
 
     // Flexbox
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    // swipe to refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
 }

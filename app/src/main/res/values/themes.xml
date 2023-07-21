@@ -6,4 +6,7 @@
     </style>
 
     <style name="Theme.Ovale" parent="Base.Theme.Ovale" />
+    <style name="Theme.Ovale.SearchView" parent="Base.Theme.Ovale">
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+    </style>
 </resources>

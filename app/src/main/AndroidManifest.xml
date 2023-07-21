@@ -30,7 +30,7 @@
             android:name=".ui.SearchActivity"
             android:exported="false"
             android:label="@string/title_activity_search"
-            android:theme="@style/Theme.Ovale" />
+            android:theme="@style/Theme.Ovale.SearchView" />
         <activity
             android:name=".ui.CollectionActivity"
             android:exported="false" />

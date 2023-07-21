@@ -2,6 +2,7 @@ package bali.rahul.ovale.rest
 
 import bali.rahul.ovale.dataModel.Collection
 import bali.rahul.ovale.dataModel.Photo
+import bali.rahul.ovale.dataModel.SearchResult
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -29,8 +30,13 @@ interface NetworkApi {
     fun fetchUserPhotos(@Path("username") username: String): Single<List<Photo>>
 
     //Get a list of photos searched by query
-    @GET("search/photos?query={query}&page=1&per_page=30")
-    fun fetchSearchPhotos(@Path("query") query: String): Single<List<Photo>>
+    @GET("search/photos")
+    fun fetchSearchPhotos(
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int
+    ): Single<SearchResult>
+//    fun fetchSearchPhotos(@Path("query") query: String): Single<List<Photo>>
 
 }
 

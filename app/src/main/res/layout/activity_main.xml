@@ -10,33 +10,69 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:titleTextColor="?attr/colorOnPrimary"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:titleTextColor="?attr/colorOnPrimary">
+
+        <!--
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:titleTextColor="?attr/colorOnPrimary"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:titleTextColor="?attr/colorOnPrimary" />
+
+        -->
+
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Search"
+            app:navigationIconTint="?attr/colorPrimary"
+            app:subtitleTextColor="?attr/colorOnPrimary"
+            app:titleTextColor="?attr/colorOnPrimary" />
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <fragment
-        android:id="@+id/nav_host_fragment_activity_main"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="16dp"
+        android:hint="Search"
+        app:layout_anchor="@id/search_bar">
+        <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.google.android.material.search.SearchView>
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:navGraph="@navigation/mobile_navigation" />
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_gravity="bottom"
+        app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav_menu" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -47,7 +83,7 @@
         android:layout_marginEnd="@dimen/fab_margin_right"
         android:layout_marginBottom="@dimen/fab_margin_bottom"
         android:contentDescription="@string/search"
-        app:srcCompat="@android:drawable/ic_search_category_default" />
+        app:srcCompat="@drawable/baseline_search_24" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

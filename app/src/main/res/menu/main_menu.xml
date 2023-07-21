@@ -2,10 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="bali.rahul.ovale.MainActivity">
+
     <item
         android:id="@+id/action_settings"
-
         android:orderInCategory="400"
         android:title="@string/action_settings"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/baseline_settings_24"
+        app:showAsAction="always" />
+
 </menu>

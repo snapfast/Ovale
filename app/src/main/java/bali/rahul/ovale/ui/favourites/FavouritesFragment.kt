@@ -64,8 +64,7 @@ class FavouritesFragment : Fragment() {
             Toast.makeText(context, photoStoreList.toString(), Toast.LENGTH_SHORT).show()
 
             //Set the layout manager for the recycler view
-            binding.recyclerView.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             // set adapter to recyclerview
             binding.recyclerView.adapter = adapter
@@ -76,9 +75,14 @@ class FavouritesFragment : Fragment() {
         return root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 
 }

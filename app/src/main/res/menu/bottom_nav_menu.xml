@@ -3,17 +3,20 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@android:drawable/ic_menu_mylocation"
+        android:enabled="true"
+        android:icon="@drawable/baseline_home_24"
         android:title="Home" />
 
     <item
         android:id="@+id/navigation_collections"
-        android:icon="@android:drawable/ic_menu_myplaces"
+        android:enabled="true"
+        android:icon="@drawable/baseline_collections_24"
         android:title="Collections" />
 
     <item
         android:id="@+id/navigation_favourites"
-        android:icon="@android:drawable/ic_menu_recent_history"
+        android:enabled="true"
+        android:icon="@drawable/baseline_favorite_24"
         android:title="Favourites" />
 
 </menu>

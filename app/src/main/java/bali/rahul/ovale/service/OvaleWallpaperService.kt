@@ -77,6 +77,7 @@ class OvaleWallpaperService : BroadcastReceiver() {
             // set wallpaper
             setAsWallpaper(photoStoreList[wallpaperCounter].url_regular!!, context)
             Log.d("OvaleWPService", "wallpaper applied: ${photoStoreList[wallpaperCounter]}")
+            Toast.makeText(context, "Wallpaper applied.", Toast.LENGTH_SHORT).show()
             storage.save("wallpaperNumber", wallpaperCounter + 1)
         }
     }
@@ -94,7 +95,7 @@ class OvaleWallpaperService : BroadcastReceiver() {
                     coroutineScope.launch {
                         withContext(Dispatchers.Main) {
                             // Update the UI here
-                            Toast.makeText(context, "Wallpaper Set", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Setting Wallpaper...", Toast.LENGTH_SHORT).show()
                         }
                         wallpaperManager.setBitmap(resource)
                     }
@@ -102,6 +103,7 @@ class OvaleWallpaperService : BroadcastReceiver() {
 
                 override fun onLoadCleared(placeholder: Drawable?) {
                     // do nothing
+                    Toast.makeText(context, "Wallpaper unloaded", Toast.LENGTH_LONG).show()
                 }
             })
         }
