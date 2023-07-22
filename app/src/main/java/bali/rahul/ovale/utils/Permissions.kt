@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 
 class Permissions(private val activity: Activity) {
 
-    val REQUEST_STORAGE_PERMISSION = 101
+    private val REQUEST_STORAGE_PERMISSION = 101
 
     fun checkStoragePermission() {
         if (ContextCompat.checkSelfPermission(

@@ -84,7 +84,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home -> viewPagerMain.currentItem = 0
                 R.id.navigation_collections -> viewPagerMain.currentItem = 1
                 R.id.navigation_favourites -> viewPagerMain.currentItem = 2
-                else -> false
             }
             true
         }
@@ -102,8 +101,6 @@ class MainActivity : AppCompatActivity() {
             }
             false
         })
-
-
 
         binding.fab.setOnClickListener {
             intent = Intent(this, SearchActivity::class.java)

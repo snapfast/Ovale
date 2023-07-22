@@ -51,7 +51,7 @@ class PhotoStoreRecyclerAdapter(private var photos: List<PhotoStore>) :
         holder.itemView.findViewById<ImageView>(R.id.add_image_view).setOnClickListener {
 
             // write code to insert photo data to database
-            val photoStore = PhotoStore(id = photos[position].id!!)
+            val photoStore = PhotoStore(id = photos[position].id)
 
             // write code to create PhotoDao object and insert photo data to database
             photoStore.date_added = System.currentTimeMillis()

@@ -23,8 +23,6 @@ class Internet {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val networkCapabilities =
                     connectivityManager.getNetworkCapabilities(network) ?: return false
-
-
                 return when {
                     networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
                     networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
@@ -35,7 +33,7 @@ class Internet {
                     else -> false
                 }
             } else {
-                return connectivityManager.activeNetworkInfo!!.isConnected
+                return connectivityManager.isDefaultNetworkActive
             }
         }
     }

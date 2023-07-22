@@ -86,16 +86,21 @@ class OvaleWallpaperService : BroadcastReceiver() {
 
         val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
-        fun setAsWallpaper(url: String, context: Context) {
+        suspend fun setAsWallpaper(url: String, context: Context) {
             Glide.with(context).asBitmap().load(url).into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(
                     resource: Bitmap, transition: Transition<in Bitmap>?
                 ) {
                     val wallpaperManager = WallpaperManager.getInstance(context)
+//                    Toast.makeText(context, "Setting Wallpaper...", Toast.LENGTH_LONG).show()
+//                    wallpaperManager.setBitmap(resource)
+//                    Toast.makeText(context, "Wallpaper has been set.", Toast.LENGTH_SHORT).show()
+
                     coroutineScope.launch {
                         withContext(Dispatchers.Main) {
                             // Update the UI here
-                            Toast.makeText(context, "Setting Wallpaper...", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Setting Wallpaper...", Toast.LENGTH_LONG)
+                                .show()
                         }
                         wallpaperManager.setBitmap(resource)
                     }
@@ -105,6 +110,7 @@ class OvaleWallpaperService : BroadcastReceiver() {
                     // do nothing
                     Toast.makeText(context, "Wallpaper unloaded", Toast.LENGTH_LONG).show()
                 }
+
             })
         }
     }

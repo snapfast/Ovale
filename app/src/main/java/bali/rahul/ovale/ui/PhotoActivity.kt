@@ -93,7 +93,7 @@ class PhotoActivity : AppCompatActivity() {
 
         // On Click Set Wallpaper Button, set the image as wallpaper
         binding.setWallpaper.setOnClickListener {
-            OvaleWallpaperService.setAsWallpaper(parcelPhoto.urls?.full!!, this)
+            coroutineScope.launch { OvaleWallpaperService.setAsWallpaper(parcelPhoto.urls?.full!!, baseContext) }
         }
 
         // On Click Share Button, share the image url
