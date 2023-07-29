@@ -10,13 +10,13 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
-    compileSdk 34
+    compileSdk 33
 
     defaultConfig {
         applicationId "bali.rahul.ovale"
         minSdk 21
-        targetSdk 34
-        versionCode 7
+        targetSdk 33
+        versionCode 8
         versionName "0.32"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
