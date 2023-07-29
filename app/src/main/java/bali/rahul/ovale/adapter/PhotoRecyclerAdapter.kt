@@ -1,6 +1,7 @@
 package bali.rahul.ovale.adapter
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -64,7 +65,7 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
         }
 
         // on clicking heart , save Photo data to database
-        holder.itemView.findViewById<ImageView>(R.id.add_image_view).setOnClickListener {
+        holder.itemView.findViewById<ImageView>(R.id.add_button).setOnClickListener {
 
             // write code to insert photo data to database
             val photoStore = PhotoStore(id = photos[position].id!!)
@@ -92,10 +93,8 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
                 Toast.makeText(holder.itemView.context, "Saved to Favorites", Toast.LENGTH_SHORT)
                     .show()
             }
-
-            holder.itemView.findViewById<ImageView>(R.id.add_image_view)
-                .setColorFilter(R.color.white)
-
+            // set color of the icon to red on CLICK
+            holder.itemView.findViewById<ImageView>(R.id.add_button).setColorFilter(Color.RED)
         }
 
         when (holder) {
@@ -126,8 +125,17 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
         private val binding = ItemPhotoCardBinding.bind(itemView)
 
         fun bind(photo: Photo) {
-            binding.authorTextView.text = photo.user?.username
+            binding.authorTextView.text = buildString {
+                append(photo.user?.firstName)
+                append(" ")
+                append(photo.user?.lastName)
+            }
             binding.colorTextView.text = photo.color
+            binding.allTextView.text = buildString {
+                append(photo.location?.city)
+                append(", ")
+                append(photo.location?.country)
+            }
 
             Log.d(">>>>>>>>>>>>>>", "binding done using PhotoViewHolder")
 
@@ -136,8 +144,7 @@ class PhotoRecyclerAdapter(private var photos: List<Photo>) :
 
             Glide.with(itemView.context).applyDefaultRequestOptions(requestOptions)
                 .load(photo.urls?.regular).transition(DrawableTransitionOptions.withCrossFade())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(binding.imageView)
+                .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imageView)
         }
     }
 }

@@ -77,42 +77,34 @@ class OvaleWallpaperService : BroadcastReceiver() {
             // set wallpaper
             setAsWallpaper(photoStoreList[wallpaperCounter].url_regular!!, context)
             Log.d("OvaleWPService", "wallpaper applied: ${photoStoreList[wallpaperCounter]}")
-            Toast.makeText(context, "Wallpaper applied.", Toast.LENGTH_SHORT).show()
+            showToast(context, "Wallpaper applied.")
             storage.save("wallpaperNumber", wallpaperCounter + 1)
         }
     }
 
-    companion object {
+    fun setAsWallpaper(url: String, context: Context): Boolean {
+        Glide.with(context).asBitmap().load(url).into(object : CustomTarget<Bitmap>() {
+            override fun onResourceReady(
+                resource: Bitmap, transition: Transition<in Bitmap>?
+            ) {
+                showToast(context, "Downloading Wallpaper in Cache...")
+                val wallpaperManager = WallpaperManager.getInstance(context)
+                // Update the UI here
+                showToast(context, "Setting Wallpaper...")
+                wallpaperManager.setBitmap(resource)
+            }
 
-        val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
-
-        suspend fun setAsWallpaper(url: String, context: Context) {
-            Glide.with(context).asBitmap().load(url).into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(
-                    resource: Bitmap, transition: Transition<in Bitmap>?
-                ) {
-                    val wallpaperManager = WallpaperManager.getInstance(context)
-//                    Toast.makeText(context, "Setting Wallpaper...", Toast.LENGTH_LONG).show()
-//                    wallpaperManager.setBitmap(resource)
-//                    Toast.makeText(context, "Wallpaper has been set.", Toast.LENGTH_SHORT).show()
-
-                    coroutineScope.launch {
-                        withContext(Dispatchers.Main) {
-                            // Update the UI here
-                            Toast.makeText(context, "Setting Wallpaper...", Toast.LENGTH_LONG)
-                                .show()
-                        }
-                        wallpaperManager.setBitmap(resource)
-                    }
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    // do nothing
-                    Toast.makeText(context, "Wallpaper unloaded", Toast.LENGTH_LONG).show()
-                }
-
-            })
-        }
+            override fun onLoadCleared(placeholder: Drawable?) {
+                // do nothing
+                showToast(context, "Wallpaper unloaded")
+            }
+        })
+        return true
     }
 
+
+    fun showToast(context: Context, message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+
+    }
 }

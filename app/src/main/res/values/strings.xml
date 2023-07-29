@@ -69,4 +69,7 @@
     <string name="this_options_enables_an_automatic_wallpaper_changing_mode_the_app_will_change_the_wallpaper_every_1_hour_you_can_change_the_time_interval_in_the_settings_below">This options enables an automatic wallpaper changing mode. The app will change the wallpaper every 1 hour. You can change the time interval in the settings below.</string>
     <string name="set_time_interval_for_auto_wallpaper_changing_mode">Set Time Interval for Auto Wallpaper Changing Mode</string>
     <string name="general_settings">General Settings</string>
+    <string name="preview_image">preview_image</string>
+    <string name="about_photo">About photo:</string>
+    <string name="about_user">About user:</string>
 </resources>

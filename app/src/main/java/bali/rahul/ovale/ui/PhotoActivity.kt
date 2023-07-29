@@ -75,8 +75,7 @@ class PhotoActivity : AppCompatActivity() {
         // Set the text
         binding.textViewDescription.text = parcelPhoto.altDescription
         binding.textViewDate.text = dateConverter(parcelPhoto.createdAt!!)
-        binding.textViewLink.text = parcelPhoto.links?.html
-        binding.textViewTitle.text = parcelPhoto.user?.name
+        binding.textViewName.text = parcelPhoto.user?.name
         binding.textViewLocation.text = parcelPhoto.user?.location
         binding.textViewCamera.text = makeCameraString()
         binding.textViewFocalLength.text = parcelPhoto.exif?.focalLength
@@ -93,7 +92,12 @@ class PhotoActivity : AppCompatActivity() {
 
         // On Click Set Wallpaper Button, set the image as wallpaper
         binding.setWallpaper.setOnClickListener {
-            coroutineScope.launch { OvaleWallpaperService.setAsWallpaper(parcelPhoto.urls?.full!!, baseContext) }
+            coroutineScope.launch {
+                OvaleWallpaperService().setAsWallpaper(
+                    parcelPhoto.urls?.full!!,
+                    baseContext
+                )
+            }
         }
 
         // On Click Share Button, share the image url
